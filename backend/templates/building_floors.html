@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ building[1] }} - Floors | Etmad Dormitory</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fffbea, #fff3c4, #f9e7a5);
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 10px;
+            font-size: 28px;
+            color: #713f12;
+        }
+
+        .header p {
+            margin: 0;
+            color: #78716c;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: #fff;
+            color: #92400e;
+            text-decoration: none;
+            border: 1px solid #f0d58a;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #ffefb0;
+            transform: translateY(-2px);
+        }
+
+        .building-banner {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 25px;
+            margin-bottom: 28px;
+            background: linear-gradient(135deg, #92400e, #d4a017);
+            color: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(146, 64, 14, 0.15);
+        }
+
+        .building-banner i {
+            font-size: 38px;
+        }
+
+        .building-banner h2 {
+            margin: 0 0 8px;
+            font-size: 21px;
+        }
+
+        .building-banner p {
+            margin: 0;
+            color: #fff4d1;
+            font-size: 14px;
+        }
+
+        .section-title {
+            margin-bottom: 18px;
+            color: #713f12;
+            font-size: 21px;
+        }
+
+        .floors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .floor-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 23px;
+            background: linear-gradient(135deg, #fff, #fffaf0);
+            border: 1px solid #f0dfb0;
+            border-radius: 17px;
+            text-decoration: none;
+            color: #292524;
+            box-shadow: 0 5px 18px rgba(120, 80, 20, 0.06);
+            transition: 0.25s ease;
+        }
+
+        .floor-card:hover {
+            transform: translateY(-5px);
+            border-color: #d4a017;
+            box-shadow: 0 12px 25px rgba(146, 64, 14, 0.12);
+        }
+
+        .floor-icon {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #b8860b, #f5c542);
+            color: white;
+            font-size: 24px;
+        }
+
+        .floor-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .floor-info h3 {
+            margin: 0 0 8px;
+            font-size: 17px;
+            color: #713f12;
+        }
+
+        .floor-info p {
+            margin: 0;
+            font-size: 13px;
+            color: #78716c;
+        }
+
+        .arrow {
+            color: #b8860b;
+            font-size: 16px;
+        }
+
+        .empty {
+            padding: 35px;
+            background: white;
+            border-radius: 15px;
+            text-align: center;
+            color: #78716c;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 18px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .building-banner {
+                padding: 20px;
+            }
+
+            .floors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <header class="header">
+            <div>
+                <h1><i class="fa-solid fa-building"></i> Building Floors</h1>
+                <p>Select a floor to view its rooms.</p>
+            </div>
+
+            <a href="{{ url_for('buildings_page') }}" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Buildings
+            </a>
+        </header>
+
+        <section class="building-banner">
+            <i class="fa-solid fa-building"></i>
+            <div>
+                <h2>{{ building[1] }}</h2>
+                <p>{{ floors|length }} Floors · Etmad Private Dormitory</p>
+            </div>
+        </section>
+
+        <h2 class="section-title">Choose a Floor</h2>
+
+        <section class="floors-grid">
+            {% for floor in floors %}
+            <a href="{{ url_for('floor_rooms', floor_id=floor[0]) }}"
+               class="floor-card">
+
+                <div class="floor-icon">
+                    <i class="fa-solid fa-stairs"></i>
+                </div>
+
+                <div class="floor-info">
+                    <h3>{{ floor[1] }}</h3>
+                    <p>Click to view rooms</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+            {% else %}
+            <div class="empty">
+                <i class="fa-solid fa-circle-info"></i>
+                <p>No floors have been registered for this building.</p>
+            </div>
+            {% endfor %}
+        </section>
+
+    </main>
+</body>
+</html>

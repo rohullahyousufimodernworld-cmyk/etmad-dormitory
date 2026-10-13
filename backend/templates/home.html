@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Etmad Dormitory | A Better Place to Live and Learn</title>
+
+    <meta name="description"
+          content="Discover Etmad Private Dormitory, a welcoming place for students in Kabul, Afghanistan.">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <span class="logo-icon">
+                <img
+                    src="{{ url_for('static', filename='images/etmad-logo.png') }}"
+                    alt="Etmad Dormitory Logo">
+            </span>
+            <span>
+                ETMAD
+                <small>PRIVATE DORMITORY</small>
+            </span>
+        </a>
+
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Toggle navigation"
+                aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="#home" class="active" data-en="Home" data-fa="صفحه اصلی">صفحه اصلی</a>
+            <a href="#about" data-en="About Us" data-fa="درباره ما">درباره ما</a>
+            <a href="#facilities" data-en="Facilities" data-fa="امکانات">امکانات</a>
+            <a href="#contact" data-en="Contact" data-fa="تماس با ما">تماس با ما</a>
+
+            <button
+                type="button"
+                id="languageToggle"
+                class="language-toggle"
+                aria-label="Change language">
+                English
+            </button>
+
+            <a href="{{ url_for('login_page') }}" class="nav-login">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span data-en="Login" data-fa="ورود به سیستم">ورود به سیستم</span>
+            </a>
+        </nav>
+    </header>
+
+
+    <!-- HERO SECTION -->
+    <main>
+        <section class="hero" id="home">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <span class="hero-label">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span
+                        data-en="YOUR HOME AWAY FROM HOME"
+                        data-fa="خانه‌ای امن دور از خانه">
+                        خانه‌ای امن دور از خانه
+                    </span>
+                </span>
+
+                <h1>
+                    <span data-en="A Better Place to" data-fa="جایی بهتر برای">
+                        جایی بهتر برای
+                    </span>
+                    <span data-en="Live and Learn." data-fa="زندگی و آموزش">
+                        زندگی و آموزش
+                    </span>
+                </h1>
+
+                <p
+                    data-en="More than a dormitory — a place where students find comfort, build friendships and focus on their future."
+                    data-fa="اعتماد تنها یک خوابگاه نیست؛ محیطی برای آرامش، دوستی و تمرکز بر آینده تحصیلی شماست.">
+                    اعتماد تنها یک خوابگاه نیست؛ محیطی برای آرامش، دوستی و تمرکز بر آینده تحصیلی شماست.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#about" class="btn-primary">
+                        <span data-en="Discover Etmad" data-fa="با خوابگاه اعتماد آشنا شوید">
+                            با خوابگاه اعتماد آشنا شوید
+                        </span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <a href="#contact" class="btn-outline"
+                    data-en="Contact Us" data-fa="تماس با ما">
+                        تماس با ما
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span data-en="Kabul, Afghanistan" data-fa="کابل، افغانستان">
+                        کابل، افغانستان
+                    </span>
+                </div>
+            </div>
+
+            <div class="hero-side-text">
+                ETMAD · STUDENT LIVING
+            </div>
+        </section>
+
+
+        <!-- QUICK INTRODUCTION -->
+        <section class="intro-strip">
+            <div>
+                <i class="fa-solid fa-house"></i>
+                <span>
+                    <strong
+                        data-en="A Place to Call Home"
+                        data-fa="خانه‌ای برای آرامش">
+                        خانه‌ای برای آرامش
+                    </strong>
+                    <small
+                        data-en="A welcoming student environment"
+                        data-fa="محیطی صمیمی برای دانشجویان">
+                        محیطی صمیمی برای دانشجویان
+                    </small>
+                </span>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-book-open"></i>
+                <span>
+                    <strong
+                        data-en="Focus on Your Future"
+                        data-fa="تمرکز بر آینده">
+                        تمرکز بر آینده
+                    </strong>
+                    <small
+                        data-en="Make room for learning and growth"
+                        data-fa="فرصتی برای یادگیری و پیشرفت">
+                        فرصتی برای یادگیری و پیشرفت
+                    </small>
+                </span>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-people-group"></i>
+                <span>
+                    <strong
+                        data-en="Community & Friendship"
+                        data-fa="همدلی و دوستی">
+                        همدلی و دوستی
+                    </strong>
+                    <small
+                        data-en="Build connections with other students"
+                        data-fa="ایجاد ارتباط با دانشجویان دیگر">
+                        ایجاد ارتباط با دانشجویان دیگر
+                    </small>
+                </span>
+            </div>
+        </section>
+
+
+        <!-- ABOUT SECTION -->
+        <section class="about-section" id="about">
+            <div class="section-heading">
+                <span class="eyebrow"
+                    data-en="GET TO KNOW US"
+                    data-fa="با ما آشنا شوید">
+                    با ما آشنا شوید
+                </span>
+
+                <h2>
+                    <span data-en="Welcome to" data-fa="به خوابگاه">
+                        به خوابگاه
+                    </span>
+                    <span data-en="Etmad Dormitory" data-fa="اعتماد خوش آمدید">
+                        اعتماد خوش آمدید
+                    </span>
+                </h2>
+
+                <p
+                    data-en="A student residence designed to make everyday student life more comfortable."
+                    data-fa="محیطی اقامتی برای فراهم‌کردن آسایش بیشتر در زندگی روزمره دانشجویان.">
+                    محیطی اقامتی برای فراهم‌کردن آسایش بیشتر در زندگی روزمره دانشجویان.
+                </p>
+
+            <div class="about-content">
+                <div class="about-image">
+                    <img
+                        src="{{ url_for('static', filename='images/etmad-dormitory.jpg') }}"
+                        alt="Etmad Private Dormitory building"
+                        loading="lazy"
+                    >
+
+                    <div class="image-caption">
+                        <i class="fa-solid fa-building"></i>
+                        <span>Etmad Private Dormitory</span>
+                    </div>
+                </div>
+
+                <div class="about-text">
+                    <span class="eyebrow"
+                        data-en="OUR STORY"
+                        data-fa="درباره ما">
+                        درباره ما
+                    </span>
+
+                    <h3
+                        data-en="A Supportive Environment for Student Life"
+                        data-fa="محیطی مناسب برای زندگی دانشجویی">
+                        محیطی مناسب برای زندگی دانشجویی
+                    </h3>
+
+                    <p
+                        data-en="Etmad Private Dormitory provides accommodation for students who need a place to live while pursuing their education in Kabul."
+                        data-fa="خوابگاه خصوصی اعتماد برای دانشجویانی که در کابل تحصیل می‌کنند، محل اقامت فراهم می‌سازد.">
+                        خوابگاه خصوصی اعتماد برای دانشجویانی که در کابل تحصیل می‌کنند، محل اقامت فراهم می‌سازد.
+                    </p>
+
+                    <p
+                        data-en="Our goal is to provide a welcoming environment where students can focus on their studies, develop friendships and work toward their goals."
+                        data-fa="هدف ما فراهم‌کردن محیطی صمیمی است تا دانشجویان بتوانند بر درس‌های خود تمرکز کنند، دوستی بسازند و برای رسیدن به اهداف‌شان تلاش کنند.">
+                        هدف ما فراهم‌کردن محیطی صمیمی است تا دانشجویان بتوانند بر درس‌های خود تمرکز کنند، دوستی بسازند و برای رسیدن به اهداف‌شان تلاش کنند.
+                    </p>
+
+                    <a href="#contact" class="text-link">
+                        <span data-en="Get in Touch" data-fa="با ما تماس بگیرید">
+                            با ما تماس بگیرید
+                        </span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FACILITIES SECTION -->
+        <section class="facilities-section" id="facilities">
+            <div class="section-heading">
+               <span class="eyebrow"
+                    data-en="WHAT WE OFFER"
+                    data-fa="امکانات خوابگاه">
+                    امکانات خوابگاه
+                </span>
+
+                <h2
+                    data-en="Designed for Student Life"
+                    data-fa="امکانات برای زندگی دانشجویی">
+                    امکانات برای زندگی دانشجویی
+                </h2>
+
+                <p
+                    data-en="A closer look at the services and facilities available at our dormitory."
+                    data-fa="با خدمات و امکانات موجود در خوابگاه اعتماد بیشتر آشنا شوید.">
+                    با خدمات و امکانات موجود در خوابگاه اعتماد بیشتر آشنا شوید.
+                </p>
+            </div>
+
+            <div class="facility-grid">
+                <article class="facility-card">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-bed"></i>
+                    </div>
+                    <h3 data-en="Student Accommodation"
+                        data-fa="محل اقامت دانشجویان">
+                        محل اقامت دانشجویان
+                    </h3>
+                    <p data-en="Comfortable accommodation designed for students with different needs."
+                    data-fa="محیط اقامتی مناسب برای نیازهای گوناگون دانشجویان.">
+                        محیط اقامتی مناسب برای نیازهای گوناگون دانشجویان.
+                    </p>
+                </article>
+
+                <article class="facility-card">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h3 data-en="Study Environment"
+                        data-fa="محیط مطالعه">
+                        محیط مطالعه
+                    </h3>
+                    <p data-en="A welcoming place for learning, studying and personal growth."
+                    data-fa="محیطی مناسب برای یادگیری، مطالعه و رشد فردی.">
+                        محیطی مناسب برای یادگیری، مطالعه و رشد فردی.
+                    </p>
+                </article>
+
+                <article class="facility-card">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h3 data-en="Meal Services"
+                        data-fa="خدمات غذایی">
+                        خدمات غذایی
+                    </h3>
+                    <p data-en="Information about meal arrangements and dining services."
+                    data-fa="اطلاعات درباره برنامه غذایی و خدمات صرف غذا.">
+                        اطلاعات درباره برنامه غذایی و خدمات صرف غذا.
+                    </p>
+                </article>
+
+                <article class="facility-card">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 data-en="Student Community"
+                        data-fa="جامعه دانشجویی">
+                        جامعه دانشجویی
+                    </h3>
+                    <p data-en="Build friendships and share experiences with fellow students."
+                    data-fa="با دانشجویان دیگر دوستی بسازید و تجربه‌های خود را شریک سازید.">
+                        با دانشجویان دیگر دوستی بسازید و تجربه‌های خود را شریک سازید.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+
+        <!-- CONTACT SECTION -->
+        <section class="contact-section" id="contact">
+            <div class="contact-content">
+                <div>
+                    <span class="eyebrow"
+                        data-en="WE ARE HERE TO HELP"
+                        data-fa="ما آماده همکاری هستیم">
+                        ما آماده همکاری هستیم
+                    </span>
+
+                    <h2 data-en="Have Questions About Etmad?"
+                        data-fa="درباره خوابگاه اعتماد پرسشی دارید؟">
+                        درباره خوابگاه اعتماد پرسشی دارید؟
+                    </h2>
+
+                    <p data-en="Contact our management for information about accommodation, availability and services."
+                    data-fa="برای دریافت معلومات درباره اقامت، ظرفیت خالی و خدمات خوابگاه با مدیریت تماس بگیرید.">
+                        برای دریافت معلومات درباره اقامت، ظرفیت خالی و خدمات خوابگاه با مدیریت تماس بگیرید.
+                    </p>
+                </div>
+
+                <a href="#contact" class="btn-primary">
+                    <span data-en="Contact Management"
+                        data-fa="تماس با مدیریت">
+                        تماس با مدیریت
+                    </span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- MANAGER CARD -->
+            <div class="manager-card">
+                <div class="manager-photo">
+                    <img src="{{ url_for('static', filename='images/manager.jpg') }}"
+                        alt="Etmad Dormitory Manager">
+                </div>
+
+                <div class="manager-info">
+                    <span class="manager-label"
+                        data-en="DORMITORY MANAGEMENT"
+                        data-fa="مدیریت خوابگاه">
+                        مدیریت خوابگاه
+                    </span>
+
+                    <h3 data-en="Eng. Mojtaba Alipour"
+                        data-fa="انجنیر مجتبی علیپور">
+                        انجنیر مجتبی علیپور
+                    </h3>
+
+                    <p data-en="Dormitory Manager"
+                    data-fa="مدیر خوابگاه">
+                        مدیر خوابگاه
+                    </p>
+
+                    <a class="manager-phone" href="tel:+930777730294">
+                        <i class="fa-solid fa-phone"></i>
+                        <span data-en="Call the Manager"
+                            data-fa="تماس با مدیر">
+                            تماس با مدیر
+                        </span>
+                    </a>
+
+                    <a class="manager-whatsapp"
+                    href="https://wa.me/93777730294"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <span data-en="Message on WhatsApp"
+                            data-fa="پیام در واتساپ">
+                            پیام در واتساپ
+                        </span>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="contact-details">
+                <div>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>
+                        <strong data-en="Location" data-fa="آدرس">
+                            آدرس
+                        </strong>
+                        <small data-en="Dasht-e-Barchi, Kabul, Afghanistan"
+                            data-fa="دشت برچی، کابل، افغانستان">
+                            دشت برچی، کابل، افغانستان
+                        </small>
+                    </span>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>
+                        <strong data-en="Email" data-fa="ایمیل">
+                            ایمیل
+                        </strong>
+                        <small data-en="Official email will be added"
+                            data-fa="ایمیل رسمی بعداً اضافه می‌شود">
+                            ایمیل رسمی بعداً اضافه می‌شود
+                        </small>
+                    </span>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-phone"></i>
+                    <span>
+                        <strong data-en="Phone" data-fa="شماره تماس">
+                            شماره تماس
+                        </strong>
+                        <small data-en="Official phone number will be added"
+                            data-fa="شماره تماس رسمی بعداً اضافه می‌شود">
+                            شماره تماس رسمی بعداً اضافه می‌شود
+                        </small>
+                    </span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <a href="#home" class="footer-logo">
+            <i class="fa-solid fa-building"></i>
+            <span>ETMAD DORMITORY</span>
+        </a>
+
+        <p data-en="A place to live, learn and grow."
+        data-fa="جایی برای زندگی، یادگیری و پیشرفت.">
+            جایی برای زندگی، یادگیری و پیشرفت.
+        </p>
+
+        <p class="copyright">
+            &copy; 2026
+            <span data-en="Etmad Private Dormitory. All rights reserved."
+                data-fa="خوابگاه خصوصی اعتماد. تمامی حقوق محفوظ است.">
+                خوابگاه خصوصی اعتماد. تمامی حقوق محفوظ است.
+            </span>
+        </p>
+    </footer>
+
+
+    <!-- MOBILE NAVIGATION -->
+    <script>
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            const isOpen = navLinks.classList.toggle("show");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.innerHTML = isOpen
+                ? '<i class="fa-solid fa-xmark"></i>'
+                : '<i class="fa-solid fa-bars"></i>';
+        });
+
+        document.querySelectorAll(".nav-links a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                navLinks.classList.remove("show");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+            });
+        });
+
+        // Language Switcher
+        // Language Switcher
+        const languageToggle = document.getElementById("languageToggle");
+
+        function setLanguage(language) {
+            const elements = document.querySelectorAll("[data-en][data-fa]");
+
+            currentLanguage = language;
+
+            document.documentElement.lang = language;
+            document.documentElement.dir =
+                language === "en" ? "ltr" : "rtl";
+
+            languageToggle.textContent =
+                language === "en" ? "دری" : "English";
+
+            elements.forEach(function (element) {
+                element.textContent =
+                    element.getAttribute("data-" + language);
+            });
+
+            localStorage.setItem("selectedLanguage", language);
+        }
+
+        let currentLanguage = "fa";
+
+        languageToggle.addEventListener("click", function () {
+            const newLanguage =
+                currentLanguage === "fa" ? "en" : "fa";
+
+            setLanguage(newLanguage);
+        });
+
+        // Restore saved language
+        const savedLanguage =
+            localStorage.getItem("selectedLanguage") || "fa";
+
+        setLanguage(savedLanguage);
+    </script>
+
+</body>
+</html>

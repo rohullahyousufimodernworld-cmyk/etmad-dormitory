@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Payment</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .payment-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .payment-card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .payment-card h2 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .student-name {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2563eb;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            padding: 11px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            border: none;
+            background: #16a34a;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #15803d;
+        }
+
+        .cancel-btn {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .payment-card {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .save-btn,
+            .cancel-btn {
+                text-align: center;
+                width: 100%;
+            }
+
+        }
+
+        .error-message {
+            margin-bottom: 20px;
+            padding: 13px 15px;
+            border-radius: 8px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .field-help {
+            display: block;
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="payment-container">
+
+    <div class="payment-card">
+
+        <h2>💳 Add Payment</h2>
+
+        <div class="student-name">
+            Student:
+            <strong>
+                {{ student[1] }} {{ student[2] }}
+            </strong>
+        </div>
+
+                {% if error %}
+
+        <div class="error-message">
+            ⚠️ {{ error }}
+        </div>
+
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="form-group">
+
+                <label>
+                    Amount
+                </label>
+
+                <input
+                    type="number"
+                    name="amount"
+                    value="3600"
+                    min="0"
+                    step="0.01"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Payment Month
+                </label>
+
+                <input
+                    type="text"
+                    name="payment_month"
+                    placeholder="October 2026"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Payment Date
+                </label>
+
+                <input
+                    type="date"
+                    name="payment_date"
+                    required>
+
+            </div>
+
+                        <div class="form-group">
+
+                <label>
+                    Receipt Number
+                </label>
+
+                <input
+                    type="text"
+                    name="receipt_number"
+                    value="{{ next_receipt }}"
+                    required>
+
+                <small class="field-help">
+                    Receipt number generated automatically.
+                </small>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Status
+                </label>
+
+                <select name="status" required>
+
+                    <option value="Paid">
+                        Paid
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="Cancelled">
+                        Cancelled
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn">
+                    💾 Save Payment
+                </button>
+
+                <a
+                    href="/students/{{ student[0] }}"
+                    class="cancel-btn">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

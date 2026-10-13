@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Room Status</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 22px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .half {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .full {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .repair {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Room Status</h1>
+
+    <div class="card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Room</th>
+                    <th>Status</th>
+                    <th>Total Beds</th>
+                    <th>Occupied</th>
+                    <th>Available</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for room in rooms %}
+
+                <tr>
+
+                    <td>
+                        Room {{ room[1] }}
+                    </td>
+
+                    <td>
+
+                        {% if room[2] == 'Repair' %}
+
+                            <span class="badge repair">
+                                Repair
+                            </span>
+
+                        {% elif room[4] == room[3] and room[3] > 0 %}
+
+                            <span class="badge full">
+                                Full
+                            </span>
+
+                        {% elif room[4] > 0 %}
+
+                            <span class="badge half">
+                                Half
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge empty">
+                                Empty
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ room[3] }}
+                    </td>
+
+                    <td>
+                        {{ room[4] }}
+                    </td>
+
+                    <td>
+                        {{ room[5] }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="5">
+                        No rooms found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

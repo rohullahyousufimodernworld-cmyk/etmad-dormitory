@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+backend/venv/
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Editors
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Database backups
+*.sql
+*.sql.gz
+*.dump

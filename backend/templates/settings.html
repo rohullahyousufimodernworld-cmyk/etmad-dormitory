@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Etmad Dormitory</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            color: #292524;
+            background: linear-gradient(135deg, #fffbea, #fff3c4, #f9e7a5);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            color: #713f12;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #78716c;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 12px 17px;
+            border: 1px solid #f0d58a;
+            border-radius: 11px;
+            background: white;
+            color: #92400e;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #fff1bf;
+            transform: translateY(-2px);
+        }
+
+        .welcome-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 18px;
+            color: white;
+            background: linear-gradient(120deg, #92400e, #b8860b, #e6b938);
+            box-shadow: 0 10px 25px rgba(146, 64, 14, 0.15);
+        }
+
+        .welcome-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 65px;
+            height: 65px;
+            flex-shrink: 0;
+            border-radius: 17px;
+            background: rgba(255, 255, 255, 0.18);
+            font-size: 29px;
+        }
+
+        .welcome-card h2 {
+            margin: 0 0 9px;
+            font-size: 21px;
+        }
+
+        .welcome-card p {
+            margin: 0;
+            color: #fff4d1;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            margin: 28px 0 16px;
+            color: #713f12;
+            font-size: 20px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .setting-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 23px;
+            border: 1px solid #f0dfb0;
+            border-radius: 17px;
+            background: linear-gradient(135deg, #ffffff, #fffaf0);
+            box-shadow: 0 5px 18px rgba(120, 80, 20, 0.05);
+            transition: 0.25s;
+        }
+
+        .setting-card:hover {
+            transform: translateY(-3px);
+            border-color: #d4a017;
+            box-shadow: 0 10px 24px rgba(146, 64, 14, 0.10);
+        }
+
+        .setting-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #b8860b, #f5c542);
+            color: white;
+            font-size: 20px;
+        }
+
+        .setting-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .setting-content h3 {
+            margin: 2px 0 8px;
+            color: #713f12;
+            font-size: 17px;
+        }
+
+        .setting-content p {
+            margin: 0;
+            color: #78716c;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .status-label {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .info-panel {
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid #f0dfb0;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.75);
+            color: #78716c;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .info-panel i {
+            margin-right: 7px;
+            color: #b8860b;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 18px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-card {
+                padding: 19px;
+            }
+
+            .welcome-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 23px;
+            }
+        }
+
+        /* Settings cards - professional responsive design */
+        .setting-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid #f0e3bd;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(120, 85, 10, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .setting-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 24px rgba(120, 85, 10, 0.12);
+        }
+
+        .setting-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #fff4cf;
+            color: #a77908;
+            font-size: 20px;
+        }
+
+        .setting-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .setting-content h3 {
+            margin: 0 0 12px;
+            color: #49380c;
+            font-size: 18px;
+        }
+
+        .setting-content p {
+            color: #6b6250;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 600px) {
+            .setting-card {
+                gap: 12px;
+                padding: 16px;
+            }
+
+            .setting-icon {
+                min-width: 40px;
+                width: 40px;
+                height: 40px;
+                font-size: 17px;
+            }
+        }
+
+        .password-field {
+            position: relative;
+            margin: 8px 0 16px;
+        }
+
+        .password-field input {
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px 46px 12px 12px;
+            border: 1px solid #e7d7aa;
+            border-radius: 9px;
+            outline: none;
+        }
+
+        .password-field input:focus {
+            border-color: #b8860b;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #8a6a18;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 6px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <header class="header">
+            <div>
+                <h1><i class="fa-solid fa-gear"></i> Settings</h1>
+                <p>Manage your Etmad Dormitory system preferences.</p>
+            </div>
+
+            <a href="{{ url_for('dashboard') }}" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </header>
+
+        <section class="welcome-card">
+            <div class="welcome-icon">
+                <i class="fa-solid fa-sliders"></i>
+            </div>
+
+            <div>
+                <h2>System Settings</h2>
+                <p>
+                    Manage account security, profile information,
+                    and general system preferences from one place.
+                </p>
+            </div>
+        </section>
+
+        <h2 class="section-title">Account & Security</h2>
+        <section class="setting-card" style="margin-bottom: 22px;">
+            <div class="setting-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <div class="setting-content">
+                <h3>Account Information</h3>
+                <p>Username: <strong>{{ username }}</strong></p>
+                <p style="margin-top: 12px;">
+                    <i class="fa-regular fa-clock"></i>
+                    Last Login:
+                    <strong>
+                        {{ last_login.strftime('%Y-%m-%d %H:%M:%S') if last_login else 'Not available' }}
+                    </strong>
+                </p>
+                <p>Role: <strong>{{ role }}</strong></p>
+                <p style="margin-top: 12px;">
+                Account Status:
+                <span style="
+                    display: inline-block;
+                    padding: 5px 12px;
+                    border-radius: 20px;
+                    font-size: 13px;
+                    font-weight: bold;
+                    background: {{ '#dcfce7' if status == 'Active' else '#fee2e2' }};
+                    color: {{ '#166534' if status == 'Active' else '#991b1b' }};
+                ">
+                    <i class="fa-solid fa-circle-check"></i>
+                    {{ status }}
+                </span>
+            </p>
+            </div>
+        </section>
+        <section class="setting-card" style="margin-bottom: 22px;">
+            <div class="setting-icon">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+
+            <div class="setting-content">
+                <h3>Change Password</h3>
+                <p>Enter your current password and choose a new secure password.</p>
+
+                <form id="changePasswordForm" style="margin-top: 20px;">
+
+                <label for="current_password">Current Password</label>
+                <div class="password-field">
+                    <input
+                        type="password"
+                        id="current_password"
+                        name="current_password"
+                        autocomplete="current-password"
+                        required
+                    >
+                    <button type="button" class="toggle-password"
+                            data-target="current_password"
+                            aria-label="Show current password">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+
+                <label for="new_password">New Password</label>
+                <div class="password-field">
+                    <input
+                        type="password"
+                        id="new_password"
+                        name="new_password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required
+                    >
+                    <button type="button" class="toggle-password"
+                            data-target="new_password"
+                            aria-label="Show new password">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+
+                <label for="confirm_password">Confirm New Password</label>
+                <div class="password-field">
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required
+                    >
+                    <button type="button" class="toggle-password"
+                            data-target="confirm_password"
+                            aria-label="Show password confirmation">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+
+                <button
+                    type="submit"
+                    style="padding:12px 20px;border:0;border-radius:10px;background:linear-gradient(135deg,#b8860b,#e6b938);color:white;font-weight:bold;cursor:pointer;"
+                >
+                    <i class="fa-solid fa-key"></i>
+                    Update Password
+                </button>
+
+                    <button
+                        type="submit"
+                        style="padding:12px 20px;border:0;border-radius:10px;background:linear-gradient(135deg,#b8860b,#e6b938);color:white;font-weight:bold;cursor:pointer;"
+                    >
+                        <i class="fa-solid fa-key"></i>
+                        Update Password
+                    </button>
+
+                    <p id="passwordMessage" role="status" aria-live="polite"
+                    style="margin-top:15px;font-size:14px;"></p>
+                </form>
+            </div>
+        </section>
+        <section class="settings-grid">
+
+            <article class="setting-card">
+                <div class="setting-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div class="setting-content">
+                    <h3>Profile Settings</h3>
+                    <p>
+                        Manage your account details and personal information.
+                    </p>
+                    <span class="status-label">Coming Next</span>
+                </div>
+            </article>
+
+            <article class="setting-card">
+                <div class="setting-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div class="setting-content">
+                    <h3>Security</h3>
+                    <p>
+                        Improve account security and manage your password.
+                    </p>
+                    <span class="status-label">Coming Next</span>
+                </div>
+            </article>
+
+            <article class="setting-card">
+                <div class="setting-icon">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+
+                <div class="setting-content">
+                    <h3>Notifications</h3>
+                    <p>
+                        Plan how important system notices are displayed.
+                    </p>
+                    <span class="status-label">Coming Next</span>
+                </div>
+            </article>
+
+            <article class="setting-card">
+                <div class="setting-icon">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+
+                <div class="setting-content">
+                    <h3>Database & System</h3>
+                    <p>
+                        Review system configuration and database-related options.
+                    </p>
+                    <span class="status-label">Coming Next</span>
+                </div>
+            </article>
+
+        </section>
+
+        <div class="info-panel">
+            <i class="fa-solid fa-circle-info"></i>
+            This page currently provides the Settings interface.
+            The individual settings will be connected to the database
+            as we implement each feature.
+        </div>
+
+    </main>
+
+    <script>
+    const changePasswordForm = document.getElementById("changePasswordForm");
+    const passwordMessage = document.getElementById("passwordMessage");
+
+    changePasswordForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const currentPassword = document.getElementById("current_password").value;
+        const newPassword = document.getElementById("new_password").value;
+        const confirmPassword = document.getElementById("confirm_password").value;
+
+        passwordMessage.textContent = "";
+        passwordMessage.style.color = "#92400e";
+
+        if (newPassword !== confirmPassword) {
+            passwordMessage.textContent = "New passwords do not match.";
+            return;
+        }
+
+        if (newPassword.length < 8) {
+            passwordMessage.textContent = "Password must be at least 8 characters.";
+            return;
+        }
+
+        const submitButton = changePasswordForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = "Updating...";
+
+        try {
+            const response = await fetch(
+                "{{ url_for('change_password') }}",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        current_password: currentPassword,
+                        new_password: newPassword,
+                        confirm_password: confirmPassword
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            passwordMessage.textContent = result.message;
+            passwordMessage.style.color = result.success ? "#15803d" : "#b91c1c";
+
+            if (result.success) {
+                changePasswordForm.reset();
+            }
+        } catch (error) {
+            passwordMessage.textContent = "Connection error. Please try again.";
+            passwordMessage.style.color = "#b91c1c";
+        } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fa-solid fa-key"></i> Update Password';
+        }
+    });
+
+    document.querySelectorAll(".toggle-password").forEach(button => {
+    button.addEventListener("click", function () {
+        const input = document.getElementById(this.dataset.target);
+        const icon = this.querySelector("i");
+
+        const showPassword = input.type === "password";
+        input.type = showPassword ? "text" : "password";
+
+        icon.classList.toggle("fa-eye", !showPassword);
+        icon.classList.toggle("fa-eye-slash", showPassword);
+
+        this.setAttribute(
+            "aria-label",
+            showPassword ? "Hide password" : "Show password"
+        );
+    });
+});
+
+</script>
+</body>
+</html>
+
+<section class="setting-card" style="margin-top: 22px;">
+    <div class="setting-icon">
+        <i class="fa-solid fa-right-from-bracket"></i>
+    </div>
+
+    <div class="setting-content">
+        <h3>Sign Out</h3>
+        <p>Log out of your account securely.</p>
+
+        <a href="{{ url_for('logout') }}"
+           style="display: inline-block;
+                  margin-top: 12px;
+                  padding: 12px 22px;
+                  background: #b91c1c;
+                  color: white;
+                  text-decoration: none;
+                  border-radius: 9px;
+                  font-weight: bold;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+    </div>
+</section>
+
+</body>
+</html>

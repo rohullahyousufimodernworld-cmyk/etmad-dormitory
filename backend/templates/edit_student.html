@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Student</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .full-width {
+            grid-column: 1 / 3;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button,
+        .btn {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .back-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>✏️ Edit Student</h1>
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>First Name</label>
+
+                <input
+                    type="text"
+                    name="first_name"
+                    value="{{ student[1] or '' }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Last Name</label>
+
+                <input
+                    type="text"
+                    name="last_name"
+                    value="{{ student[2] or '' }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Father Name</label>
+
+                <input
+                    type="text"
+                    name="father_name"
+                    value="{{ student[3] or '' }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Phone</label>
+
+                <input
+                    type="text"
+                    name="phone"
+                    value="{{ student[4] or '' }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>ID Number</label>
+
+                <input
+                    type="text"
+                    name="id_number"
+                    value="{{ student[5] or '' }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Education Type</label>
+
+                <select name="education_type">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="University"
+                        {% if student[6] == 'University' %}selected{% endif %}>
+                        University
+                    </option>
+
+                    <option value="School"
+                        {% if student[6] == 'School' %}selected{% endif %}>
+                        School
+                    </option>
+
+                    <option value="Institute"
+                        {% if student[6] == 'Institute' %}selected{% endif %}>
+                        Institute
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>University / School</label>
+
+                <input
+                    type="text"
+                    name="university_school"
+                    value="{{ student[7] or '' }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Department</label>
+
+                <input
+                    type="text"
+                    name="department"
+                    value="{{ student[8] or '' }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Semester / Grade</label>
+
+                <input
+                    type="text"
+                    name="semester_grade"
+                    value="{{ student[9] or '' }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Entry Date</label>
+
+                <input
+                    type="date"
+                    name="entry_date"
+                    value="{{ student[10] or '' }}"
+                >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+                <label>Status</label>
+
+                <select name="status">
+
+                    <option value="Active"
+                        {% if student[11] == 'Active' %}selected{% endif %}>
+                        Active
+                    </option>
+
+                    <option value="Inactive"
+                        {% if student[11] == 'Inactive' %}selected{% endif %}>
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button
+                type="submit"
+                class="save-btn"
+            >
+                💾 Update Student
+            </button>
+
+            <a
+                href="/students/{{ student[0] }}"
+                class="btn back-btn"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

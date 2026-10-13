@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Occupancy Details</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card p {
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .progress {
+            margin-top: 30px;
+            background: #e5e7eb;
+            height: 18px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: {{ occupancy_rate }}%;
+            background: #2563eb;
+        }
+
+        .rate {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Occupancy Details</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <p>Total Beds</p>
+            <h2>{{ total_beds }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Occupied Beds</p>
+            <h2>{{ occupied_beds }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Available Beds</p>
+            <h2>{{ available_beds }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Occupancy Rate</p>
+            <h2>{{ occupancy_rate }}%</h2>
+        </div>
+
+    </div>
+
+    <div class="card" style="margin-top: 25px;">
+
+        <h3>Occupancy Progress</h3>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                style="width: {{ occupancy_rate }}%;"
+            ></div>
+
+        </div>
+
+        <div class="rate">
+            {{ occupancy_rate }}% Occupied
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

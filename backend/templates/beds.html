@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Beds</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #e2e8f0;
+            color: #334155;
+            padding: 10px 16px;
+            border-radius: 7px;
+            font-weight: 600;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,.06);
+        }
+
+        .stat-card span {
+            display: block;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card strong {
+            font-size: 24px;
+        }
+
+        .beds-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,.06);
+            overflow-x: auto;
+        }
+
+        .beds-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .beds-table th,
+        .beds-table td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .beds-table th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 13px;
+        }
+
+        .beds-table td {
+            font-size: 14px;
+        }
+
+        .bed-status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .occupied {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .available {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .room-link,
+        .student-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .room-link:hover,
+        .student-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty-text {
+            color: #64748b;
+        }
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .beds-card {
+                padding: 15px;
+            }
+
+            .beds-table {
+                min-width: 750px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h2>🛏️ Beds</h2>
+            <p>Manage all dormitory beds</p>
+        </div>
+
+        <a href="/dashboard" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- Statistics -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <span>🛏️ Total Beds</span>
+            <strong>{{ beds|length }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>🔴 Occupied</span>
+
+            <strong>
+                {{ beds|selectattr('2', 'equalto', 'Occupied')|list|length }}
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span>🟢 Available</span>
+
+            <strong>
+                {{ beds|selectattr('2', 'equalto', 'Available')|list|length }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    <!-- Beds Table -->
+
+    <div class="beds-card">
+
+        <table class="beds-table">
+
+            <thead>
+
+                <tr>
+                    <th>Bed ID</th>
+                    <th>Bed Number</th>
+                    <th>Room</th>
+                    <th>Status</th>
+                    <th>Student</th>
+                    <th>Start Date</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for bed in beds %}
+
+                <tr>
+
+                    <td>
+                        {{ bed[0] }}
+                    </td>
+
+
+                    <td>
+                        <strong>
+                            Bed {{ bed[1] }}
+                        </strong>
+                    </td>
+
+
+                    <td>
+
+                        <a
+                            href="/rooms/{{ bed[3] }}"
+                            class="room-link"
+                        >
+                            Room {{ bed[4] }}
+                        </a>
+
+                    </td>
+
+
+                    <td>
+
+                        {% if bed[2] == 'Occupied' %}
+
+                            <span class="bed-status occupied">
+                                🔴 Occupied
+                            </span>
+
+                        {% else %}
+
+                            <span class="bed-status available">
+                                🟢 Available
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if bed[5] %}
+
+                            <a
+                                href="/students/{{ bed[5] }}"
+                                class="student-link"
+                            >
+                                {{ bed[6] }} {{ bed[7] }}
+                            </a>
+
+                        {% else %}
+
+                            <span class="empty-text">
+                                No student
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if bed[8] %}
+                            {{ bed[8] }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

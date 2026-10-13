@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Student</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .full-width {
+            grid-column: 1 / 3;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .back-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>➕ Add New Student</h1>
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>First Name</label>
+
+                <input
+                    type="text"
+                    name="first_name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Last Name</label>
+
+                <input
+                    type="text"
+                    name="last_name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Father Name</label>
+
+                <input
+                    type="text"
+                    name="father_name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Phone</label>
+
+                <input
+                    type="text"
+                    name="phone"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>ID Number</label>
+
+                <input
+                    type="text"
+                    name="id_number"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Education Type</label>
+
+                <select name="education_type">
+
+                    <option value="">Select</option>
+
+                    <option value="University">
+                        University
+                    </option>
+
+                    <option value="School">
+                        School
+                    </option>
+
+                    <option value="Institute">
+                        Institute
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>University / School</label>
+
+                <input
+                    type="text"
+                    name="university_school"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Department</label>
+
+                <input
+                    type="text"
+                    name="department"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Semester / Grade</label>
+
+                <input
+                    type="text"
+                    name="semester_grade"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Entry Date</label>
+
+                <input
+                    type="date"
+                    name="entry_date"
+                >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+                <label>Status</label>
+
+                <select name="status">
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button
+                type="submit"
+                class="save-btn"
+            >
+                Save Student
+            </button>
+
+            <button
+                type="button"
+                class="back-btn"
+                onclick="history.back()"
+            >
+                Back
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buildings | Etmad Dormitory</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 8px;
+            background: #e2e8f0;
+            color: #334155;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #cbd5e1;
+        }
+
+        .summary {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .summary-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: #dbeafe;
+            color: #2563eb;
+            font-size: 24px;
+        }
+
+        .summary h2 {
+            margin: 0 0 6px;
+            font-size: 25px;
+        }
+
+        .summary p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .panel {
+            overflow: hidden;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 22px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .panel-header h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .search {
+            width: 260px;
+            max-width: 100%;
+            padding: 11px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px #dbeafe;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .building-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .building-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .empty {
+            padding: 35px;
+            color: #64748b;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .panel-header {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .search {
+                width: 100%;
+            }
+        }
+
+        .building-photo {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+        }
+
+        .building-photo-section {
+            margin-bottom: 25px;
+        }
+
+        .building-photo-title {
+            margin: 0 0 12px;
+            font-size: 19px;
+            color: #1e293b;
+        }
+
+        @media (max-width: 600px) {
+            .building-photo {
+                height: 200px;
+            }
+        }
+
+        /* Clickable Building Name */
+        .building-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: fit-content;
+            max-width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #f0d58a;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fffdf5, #fff1bf);
+            color: #854d0e !important;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .building-name:hover {
+            background: linear-gradient(135deg, #fff1bf, #f5d36b);
+            border-color: #d4a017;
+            box-shadow: 0 5px 14px rgba(184, 134, 11, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .building-name:focus-visible {
+            outline: 3px solid #d4a017;
+            outline-offset: 3px;
+        }
+
+        .building-name .building-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #b8860b, #f5c542);
+            color: #ffffff;
+            font-size: 17px;
+            box-shadow: 0 3px 8px rgba(184, 134, 11, 0.2);
+        }
+
+        .building-name > .fa-chevron-right {
+            margin-left: 8px;
+            transition: transform 0.25s ease;
+        }
+
+        .building-name:hover > .fa-chevron-right {
+            transform: translateX(5px);
+        }
+
+        .building-hint {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            color: #926500;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <header class="header">
+            <div>
+                <h1><i class="fa-solid fa-building"></i> Buildings</h1>
+                <p>Manage your dormitory building information.</p>
+            </div>
+
+            <a href="{{ url_for('dashboard') }}" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard
+            </a>
+        </header>
+
+        <section class="summary">
+            <section class="building-photo-section">
+                <h2 class="building-photo-title">
+                    <i class="fa-solid fa-image"></i>
+                    Etmad Dormitory
+                </h2>
+
+                <img
+                    src="{{ url_for('static', filename='images/etmad-dormitory.jpg') }}"
+                    alt="Etmad Private Dormitory Building"
+                    class="building-photo"
+                >
+            </section>
+            <div class="summary-icon">
+                <i class="fa-solid fa-building"></i>
+            </div>
+
+            <div>
+                <h2>{{ buildings|length }}</h2>
+                <p>Total Buildings</p>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Building List</h2>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search"
+                    placeholder="Search buildings..."
+                    oninput="searchBuildings()"
+                >
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Building Name</th>
+                            <th>Address</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="buildingTable">
+                        {% for building in buildings %}
+                        <tr>
+                            <td>{{ building[0] }}</td>
+
+                            <td>
+                                <a href="{{ url_for('building_floors', building_id=building[0]) }}"
+                                class="building-name"
+                                style="text-decoration: none; color: inherit; cursor: pointer;">
+
+                                    <span class="building-icon">
+                                        <i class="fa-solid fa-building"></i>
+                                    </span>
+
+                                    {{ building[1] }}
+                                    <small class="building-hint">Click to view floors</small>
+
+                                    <i class="fa-solid fa-chevron-right"
+                                    style="margin-left: auto; color: #b8860b;"></i>
+                                </a>
+                            </td>
+
+                            <td>{{ building[2] or '-' }}</td>
+                            <td>{{ building[3] or '-' }}</td>
+
+                            <td>
+                                <span class="status">
+                                    {{ building[4] }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="empty">
+                                <i class="fa-solid fa-building fa-2x"></i>
+                                <p>No buildings found.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function searchBuildings() {
+            const input = document
+                .getElementById("searchInput")
+                .value.toLowerCase();
+
+            const rows = document.querySelectorAll(
+                "#buildingTable tr"
+            );
+
+            rows.forEach(function (row) {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+    </script>
+</body>
+</html>

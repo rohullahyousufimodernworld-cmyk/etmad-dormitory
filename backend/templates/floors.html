@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floors | Etmad Dormitory</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #fffbea 0%,
+                #fff3c4 45%,
+                #f9e7a5 100%
+            );
+
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .back-link {
+            padding: 11px 16px;
+            border-radius: 8px;
+            background: #e2e8f0;
+            color: #334155;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #cbd5e1;
+        }
+
+        .summary {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .summary-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: #dbeafe;
+            color: #2563eb;
+            font-size: 24px;
+        }
+
+        .summary h2 {
+            margin: 0 0 6px;
+            font-size: 25px;
+        }
+
+        .summary p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .panel {
+            overflow: hidden;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 22px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .panel-header h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .search {
+            width: 260px;
+            max-width: 100%;
+            padding: 11px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px #dbeafe;
+        }
+
+        .floor-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            padding: 22px;
+        }
+
+        .floor-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 25px;
+            overflow: hidden;
+
+            background: linear-gradient(
+                135deg,
+                #ffffff 0%,
+                #f3f7ff 100%
+            );
+
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            text-decoration: none;
+            color: #1e293b;
+            cursor: pointer;
+
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .floor-card::after {
+            content: "";
+            position: absolute;
+            right: -35px;
+            bottom: -55px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.06);
+            pointer-events: none;
+        }
+
+        .floor-card:hover {
+            transform: translateY(-5px);
+            border-color: #e7bd52;
+            box-shadow: 0 14px 30px rgba(184, 134, 11, 0.16);
+        }
+
+        .floor-card:focus-visible {
+            outline: 3px solid #60a5fa;
+            outline-offset: 4px;
+        }
+
+        .floor-icon {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            width: 62px;
+            height: 62px;
+            border-radius: 16px;
+
+            background: linear-gradient(
+                135deg,
+                #b8860b,
+                #f5c542
+            );
+
+            color: #ffffff;
+            font-size: 25px;
+
+            box-shadow: 0 7px 15px rgba(37, 99, 235, 0.2);
+
+            transition: transform 0.25s ease;
+        }
+
+        .floor-card:hover .floor-icon {
+            transform: scale(1.08) rotate(-4deg);
+        }
+
+        .floor-info {
+            position: relative;
+            z-index: 1;
+            min-width: 0;
+        }
+
+        .floor-info h3 {
+            margin: 0 0 8px;
+            font-size: 19px;
+            font-weight: 700;
+            color: #0f172a;
+            transition: color 0.2s ease;
+        }
+
+        .floor-card:hover .floor-info h3 {
+            color: #2563eb;
+        }
+
+        .floor-info p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .floor-id {
+            position: relative;
+            z-index: 1;
+            margin-left: auto;
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+
+            background: #fff1bf;
+            color: #926500;
+            font-size: 14px;
+
+            transition: all 0.25s ease;
+        }
+
+        .floor-card:hover .floor-id {
+            background: #2563eb;
+            color: white;
+            transform: translateX(3px);
+        }
+
+        /* ===== FLOOR DIRECTORY - MOBILE FIX ===== */
+    @media (max-width: 600px) {
+        .floor-directory,
+        .floor-grid {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .floor-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 16px;
+        }
+
+        .floor-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .floor-card > * {
+            min-width: 0;
+        }
+
+        .floor-card h3 {
+            font-size: 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .floor-card p {
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <header class="header">
+            <div>
+                <h1><i class="fa-solid fa-layer-group"></i> Floors</h1>
+                <p class="subtitle">
+                    View and manage dormitory floors.
+                </p>
+            </div>
+
+            <a href="{{ url_for('dashboard') }}" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard
+            </a>
+        </header>
+
+        <section class="summary">
+            <div class="summary-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <div>
+                <h2>{{ floors|length }}</h2>
+                <p>Total Floors</p>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Floor Directory</h2>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search"
+                    placeholder="Search floors..."
+                    oninput="searchFloors()"
+                >
+            </div>
+
+            <div class="floor-grid" id="floorGrid">
+                {% for floor in floors %}
+                <a href="{{ url_for('floor_rooms', floor_id=floor[0]) }}"
+                class="floor-card">
+
+                    <div class="floor-icon">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <div class="floor-info">
+                        <h3>{{ floor[1] }}</h3>
+                        <p>View rooms on this floor</p>
+                    </div>
+
+                    <span class="floor-id">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+
+                </a>
+                {% else %}```
+                <div class="empty">
+                    <i class="fa-solid fa-layer-group fa-2x"></i>
+                    <p>No floors found.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function searchFloors() {
+            const input = document
+                .getElementById("searchInput")
+                .value.toLowerCase();
+
+            const cards = document.querySelectorAll(".floor-card");
+
+            cards.forEach(function (card) {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+    </script>
+</body>
+</html>

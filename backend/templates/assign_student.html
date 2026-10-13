@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Assign Student</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .student-name {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            background: white;
+        }
+
+        select:focus,
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .info {
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .assign-btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            background: #16a34a;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            padding: 11px 18px;
+            border-radius: 7px;
+            background: #e2e8f0;
+            color: #334155;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .assign-btn,
+            .back-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>🏠 Assign Student</h2>
+
+        <div class="student-name">
+
+            Student:
+
+            <strong>
+                {{ student[1] }} {{ student[2] }}
+            </strong>
+
+        </div>
+
+        <div class="info">
+
+            🛏️ Only currently available beds are shown.
+
+        </div>
+
+        <form method="POST">
+
+            <div class="form-group">
+
+                <label>
+                    Select Bed
+                </label>
+
+                <select name="bed_id" required>
+
+                    <option value="">
+                        -- Select an Available Bed --
+                    </option>
+
+                    {% for bed in available_beds %}
+
+                    <option value="{{ bed[0] }}">
+
+                        Room {{ bed[3] }}
+                        — Bed {{ bed[1] }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Start Date
+                </label>
+
+                <input
+                    type="date"
+                    name="start_date"
+                    required>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                    type="submit"
+                    class="assign-btn">
+
+                    🛏️ Assign Bed
+
+                </button>
+
+                <a
+                    href="/students/{{ student[0] }}"
+                    class="back-btn">
+
+                    ← Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

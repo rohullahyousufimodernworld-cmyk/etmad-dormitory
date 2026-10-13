@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ floor[1] }} | Etmad Dormitory</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .back-link {
+            padding: 11px 16px;
+            border-radius: 8px;
+            background: #e2e8f0;
+            color: #334155;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .summary {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+        }
+
+        .summary-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: #dbeafe;
+            color: #2563eb;
+            font-size: 24px;
+        }
+
+        .summary h2 {
+            margin: 0 0 6px;
+            font-size: 25px;
+        }
+
+        .summary p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .room-card {
+            padding: 22px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        .room-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .room-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 21px;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status.full {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status.repair {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .room-card h3 {
+            margin: 0 0 18px;
+            font-size: 20px;
+        }
+
+        .room-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            padding: 10px 5px;
+            border-radius: 9px;
+            background: #f8fafc;
+            text-align: center;
+        }
+
+        .stat strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        .stat span {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .details-link {
+            display: block;
+            padding: 11px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .details-link:hover {
+            background: #1d4ed8;
+        }
+
+        .empty {
+            grid-column: 1 / -1;
+            padding: 40px;
+            background: white;
+            border-radius: 14px;
+            color: #64748b;
+            text-align: center;
+        }
+
+        @media (max-width: 850px) {
+            .room-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 550px) {
+            body {
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .room-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<main class="container">
+
+    <header class="header">
+        <div>
+            <h1>
+                <i class="fa-solid fa-door-open"></i>
+                {{ floor[1] }} — Rooms
+            </h1>
+            <p class="subtitle">
+                View rooms and bed availability on this floor.
+            </p>
+        </div>
+
+        <a href="{{ url_for('floors_page') }}" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Back to Floors
+        </a>
+    </header>
+
+    <section class="summary">
+        <div class="summary-icon">
+            <i class="fa-solid fa-door-open"></i>
+        </div>
+        <div>
+            <h2>{{ rooms|length }}</h2>
+            <p>Total Rooms on {{ floor[1] }}</p>
+        </div>
+    </section>
+
+    <section class="room-grid">
+        {% for room in rooms %}
+        <article class="room-card">
+
+            <div class="room-top">
+                <div class="room-icon">
+                    <i class="fa-solid fa-bed"></i>
+                </div>
+
+                <span class="status
+                    {% if room[2] == 'Full' %}full
+                    {% elif room[2] == 'Repair' %}repair
+                    {% endif %}">
+                    {{ room[2] }}
+                </span>
+            </div>
+
+            <h3>Room {{ room[1] }}</h3>
+
+            <div class="room-stats">
+                <div class="stat">
+                    <strong>{{ room[3] or 0 }}</strong>
+                    <span>Total Beds</span>
+                </div>
+
+                <div class="stat">
+                    <strong>{{ room[4] or 0 }}</strong>
+                    <span>Occupied</span>
+                </div>
+
+                <div class="stat">
+                    <strong>{{ room[5] or 0 }}</strong>
+                    <span>Available</span>
+                </div>
+            </div>
+
+            <a href="{{ url_for('room_details', room_id=room[0]) }}"
+               class="details-link">
+                View Details
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </article>
+        {% else %}
+        <div class="empty">
+            <i class="fa-solid fa-door-closed fa-2x"></i>
+            <h3>No Rooms on This Floor</h3>
+            <p>No rooms have been assigned to this floor yet.</p>
+        </div>
+        {% endfor %}
+    </section>
+
+</main>
+</body>
+</html>

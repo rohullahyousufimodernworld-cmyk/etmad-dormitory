@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Etmad Dormitory - Dashboard</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Dashboard CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <h2>ETMAD<span>.</span></h2>
+            <p>Dormitory Management System</p>
+        </div>
+
+        <ul class="nav-menu">
+
+            <li>
+                <a href="/dashboard" class="active">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/students">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('buildings_page')}}">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Buildings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('floors_page')}}">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Floors</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/rooms">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>Rooms</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/beds">
+                    <i class="fa-solid fa-bed"></i>
+                    <span>Beds</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('assignments_page') }}">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Assignments</span>
+                </a>
+            </li>
+
+            
+
+            <li>
+                <a href="{{ url_for('employees_page')}}">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Employees</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('employee_salaries') }}">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Employees Salary Management</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('meals_page')}}">
+                    <i class="fa-solid fa-utensils"></i>
+                    <span>Meals</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{url_for('expenses_page')}}">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Expenses</span>
+                </a>
+            </li>
+
+            
+
+            <li>
+                <a href="{{ url_for('settings_page')}}">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+
+            <li class="logout">
+                <a href="/logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <!-- ===== TOPBAR ===== -->
+
+        <header class="topbar">
+
+            <div class="menu-btn" id="menuBtn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    placeholder="Search..."
+                >
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="notification">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </div>
+
+
+                <div class="profile">
+
+                    <div class="profile-avatar">
+                        <img
+                            src="{{ url_for('static', filename='images/admin.jpeg') }}"
+                            alt="Admin Profile"
+                        >
+                    </div>
+
+                    <div class="profile-info">
+
+                        <strong>{{ username }}</strong>
+
+                        <span>{{ role }}</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ===== DASHBOARD CONTENT ===== -->
+
+        <section class="content">
+
+            <!-- Welcome -->
+
+            <div class="welcome">
+
+                <h1>
+                    Welcome back, {{ username }} 👋
+                </h1>
+
+                <p>
+                    Here's what's happening in Etmad Dormitory today.
+                </p>
+
+            </div>
+
+
+            <!-- ===== STATISTICS ===== -->
+
+            <div class="stats-grid">
+
+             
+                    <!-- Total Students -->
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                           <p>Total Students</p>
+
+                           <h2>{{ total_students }}</h2>
+
+                    </div>
+
+                    <div class="stat-icon">
+                        👨‍🎓
+                    </div>
+
+                </div>
+
+
+                    <!-- Active Students -->
+                    <div class="stat-card">
+
+                        <div class="stat-info">
+
+                            <p>Active Students</p>
+
+                            <h2>{{ active_students }}</h2>
+
+                    </div>
+
+                    <div class="stat-icon">
+                       🟢
+                    </div>
+
+                </div>
+
+
+                <!-- Rooms -->
+
+                <div class="stat-card">
+
+                    <div class="stat-info">
+
+                        <p>Total Rooms</p>
+
+                        <h2>{{ total_rooms }}</h2>
+
+                    </div>
+
+                    <div class="stat-icon">
+                        🏠
+                    </div>
+
+                </div>
+
+
+                <!-- Beds -->
+
+                <div class="stat-card">
+
+                    <div class="stat-info">
+
+                        <p>Available Beds</p>
+
+                        <h2>{{ available_beds }}</h2>
+
+                    </div>
+
+                    <div class="stat-icon">
+                        🛏️
+                    </div>
+
+                </div>
+
+
+                <!-- Payments -->
+
+                <div class="stat-card">
+
+                    <div class="stat-info">
+
+                        <p>Monthly Payments</p>
+
+                        <h2>؋{{ monthly_payments }}</h2>
+
+                    </div>
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===== CHART + ROOM STATUS ===== -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- Occupancy -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h3>Occupancy Overview</h3>
+
+                        <a href="/occupancy">
+                            View Details
+                        </a>
+
+                    </div>
+
+
+                    <div class="chart-placeholder">
+
+    <div style="width: 100%;">
+
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        ">
+            <span>Occupied Beds</span>
+
+            <strong>
+                {{ occupied_beds }}
+            </strong>
+        </div>
+
+
+        <div style="
+    height: 12px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+">
+    <div
+        id="occupancyBar"
+        style="height: 100%; background: #2563eb; border-radius: 10px;"
+    ></div>
+</div>
+
+
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        ">
+
+            <span>
+                Available: {{ available_beds }}
+            </span>
+
+            <span>
+                Total: {{ total_beds }}
+            </span>
+
+        </div>
+
+
+        <p style="
+            text-align: center;
+            margin-top: 15px;
+        ">
+            Occupancy Rate: {{ occupancy_rate }}%
+        </p>
+
+    </div>
+
+</div>
+
+                </div>
+
+
+                <!-- Room Status -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h3>Room Status</h3>
+
+                        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                        <a href="/room-status" class="view-all-btn">
+                            View Status
+                        </a>
+
+                        <a href="/rooms" class="view-rooms-btn">
+                            🏠 Manage Rooms
+                        </a>
+
+                    </div>
+
+                    </div>
+
+
+                    <div class="room-status">
+
+
+                        <div class="room-item">
+
+                            <div class="room-label">
+
+                                <span
+                                    class="status-dot status-full"
+                                ></span>
+
+                                <span>Full</span>
+
+                            </div>
+
+                            <strong>{{ room_full }}</strong>
+
+                        </div>
+
+
+                        <div class="room-item">
+
+                            <div class="room-label">
+
+                                <span
+                                    class="status-dot status-half"
+                                ></span>
+
+                                <span>Half</span>
+
+                            </div>
+
+                            <strong>{{ room_half }}</strong>
+
+                        </div>
+
+
+                        <div class="room-item">
+
+                            <div class="room-label">
+
+                                <span
+                                    class="status-dot status-empty"
+                                ></span>
+
+                                <span>Empty</span>
+
+                            </div>
+
+                            <strong>{{ room_empty }}</strong>
+
+                        </div>
+
+
+                        <div class="room-item">
+
+                            <div class="room-label">
+
+                                <span
+                                    class="status-dot"
+                                ></span>
+
+                                <span>Repair</span>
+
+                            </div>
+
+                            <strong>{{ room_repair }}</strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===== PAYMENT HISTORY ===== -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>Payment History</h3>
+
+                    <a href="{{ url_for('payment_history_page')}}">
+                        View All
+                    </a>
+
+                </div>
+
+
+                <table class="students-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Month</th>
+
+                            <th>Total Payment</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for payment in payment_history %}
+
+                        <tr>
+
+                            <td>
+                                {{ payment[0] }}
+                            </td>
+
+                            <td>
+                                ؋{{ payment[1] }}
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="2">
+                                No payment records found.
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- ===== RECENT STUDENTS ===== -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>Recent Students</h3>
+
+                    <a href="/students">
+                        View All Students
+                    </a>
+
+                </div>
+
+
+                <table class="students-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Name</th>
+
+                            <th>University</th>
+
+                            <th>Department</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td class="student-name">
+                                Ahmad Rahimi
+                            </td>
+
+                            <td>
+                                Kabul University
+                            </td>
+
+                            <td>
+                                Computer Science
+                            </td>
+
+                            <td>
+                                <span class="badge badge-active">
+                                    Active
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="student-name">
+                                Mohammad Ahmadi
+                            </td>
+
+                            <td>
+                                Parwan University
+                            </td>
+
+                            <td>
+                                Economics
+                            </td>
+
+                            <td>
+                                <span class="badge badge-active">
+                                    Active
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="student-name">
+                                Hamid Karimi
+                            </td>
+
+                            <td>
+                                Kabul Polytechnic
+                            </td>
+
+                            <td>
+                                Civil Engineering
+                            </td>
+
+                            <td>
+                                <span class="badge badge-active">
+                                    Active
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const menuBtn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
+    const occupancyBar = document.getElementById("occupancyBar");
+
+    // Mobile sidebar
+    if (menuBtn && sidebar) {
+        menuBtn.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
+        });
+    } else {
+        console.error("menuBtn or sidebar was not found!");
+    }
+
+    // Occupancy progress bar
+    if (occupancyBar) {
+        const occupancyRate = {{ occupancy_rate }};
+        occupancyBar.style.width = occupancyRate + "%";
+    }
+});
+</script>
+
+</body>
+</html>

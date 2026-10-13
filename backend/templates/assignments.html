@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin: 0;
+        }
+
+        .back-btn {
+            background: #334155;
+            color: white;
+            text-decoration: none;
+            padding: 11px 16px;
+            border-radius: 7px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .stat-card span {
+            display: block;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .stat-card strong {
+            font-size: 28px;
+        }
+
+        .table-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #00000008;
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .table-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .search {
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            min-width: 230px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .ended {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .student-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .search {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            padding: 0 13px;
+            min-width: 280px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box i {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .search {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: #1e293b;
+        }
+
+        .search-box:focus-within {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px #2563eb1a;
+        }
+
+        .search::placeholder {
+            color: #94a3b8;
+        }
+
+        @media (max-width: 600px) {
+            .search-box {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+
+        .end-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 7px;
+            background: #fee2e2;
+            color: #b91c1c;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .end-btn:hover {
+            background: #fecaca;
+        }
+
+        .empty-text {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+            padding: 13px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1>📋 Assignments Management</h1>
+            <p class="subtitle">View student room and bed assignments</p>
+        </div>
+
+        <a href="{{ url_for('dashboard') }}" class="back-btn">
+            ← Dashboard
+        </a>
+    </div>
+
+        {% if request.args.get('message') == 'ended' %}
+        <div class="success-message">
+            ✅ Assignment ended successfully. The bed has been checked for availability.
+        </div>
+    {% endif %}
+
+    <div class="stats">
+        <div class="stat-card">
+            <span>📋 Total Assignments</span>
+            <strong>{{ assignments|length }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>🟢 Active Assignments</span>
+            <strong>{{ assignments|selectattr('8', 'equalto', 'Active')|list|length }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>⚪ Ended Assignments</span>
+            <strong>{{ assignments|selectattr('8', 'equalto', 'Ended')|list|length }}</strong>
+        </div>
+    </div>
+
+        <div class="table-card">
+                <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                class="search"
+                placeholder="Search student, room, bed..."
+                oninput="searchAssignments()"
+            >
+        </div>
+
+        <table id="assignmentsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Room</th>
+                    <th>Bed</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for assignment in assignments %}
+                <tr>
+                    <td>{{ assignment[0] }}</td>
+
+                    <td>
+                        <a
+                            href="{{ url_for('student_details', student_id=assignment[1]) }}"
+                            class="student-link"
+                        >
+                            {{ assignment[2] }} {{ assignment[3] }}
+                        </a>
+                    </td>
+
+                    <td>
+                        {% if assignment[4] %}
+                            Room {{ assignment[4] }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if assignment[5] %}
+                            Bed {{ assignment[5] }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+
+                    <td>{{ assignment[6] }}</td>
+
+                    <td>
+                        {% if assignment[7] %}
+                            {{ assignment[7] }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if assignment[8] == 'Active' %}
+                            <span class="status active">Active</span>
+                        {% else %}
+                            <span class="status ended">{{ assignment[8] }}</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if assignment[8] == 'Active' %}
+                            <form
+                                action="{{ url_for('end_assignment', assignment_id=assignment[0]) }}"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to end this assignment?');"
+                            >
+                                <button type="submit" class="end-btn">
+                                    End Assignment
+                                </button>
+                            </form>
+                        {% else %}
+                            <span class="empty-text">Completed</span>
+                        {% endif %}
+                    </td>
+
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="empty">
+                        No assignments found.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    function searchAssignments() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase();
+        const rows = document.querySelectorAll("#assignmentsTable tbody tr");
+
+        rows.forEach(function(row) {
+            row.style.display = row.innerText.toLowerCase().includes(filter)
+                ? ""
+                : "none";
+        });
+    }
+</script>
+
+</body>
+</html>

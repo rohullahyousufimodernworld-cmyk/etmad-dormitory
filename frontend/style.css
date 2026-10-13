@@ -1,0 +1,54 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.card-grid {
+    display:flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    text-decoration: none;
+    margin: 55px;
+    padding: 55px;
+    width: 44px;
+    height: 44px;
+    border-radius: 44px;
+    float: left;
+    box-shadow: inset;
+    
+}
+
+.card {
+    flex: 1 1 250px;
+    padding: 24px;
+    background-color: goldenrod;
+    border-radius: 8px;
+    justify-content: center;
+    text-decoration: none;
+
+}
+
+.links {
+    list-style: none;
+    text-decoration: none;
+}
+
+.navbar {
+    flex: 1 1 250px;
+    padding: 24px;
+    background-color: goldenrod;
+    border-radius: 8px;
+    justify-content: center;
+    list-style: none;
+    text-decoration: none;
+    list-style: none;
+}
+
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 74vh;
+    background-color: gold;
+    text-align: center;
+}

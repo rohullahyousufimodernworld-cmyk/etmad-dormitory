@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rooms</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #e2e8f0;
+            color: #334155;
+            padding: 10px 16px;
+            border-radius: 7px;
+            font-weight: 600;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .room-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,.06);
+        }
+
+        .room-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .room-title h3 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .status {
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-repair {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .room-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 7px;
+            text-align: center;
+        }
+
+        .info-box span {
+            display: block;
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .info-box strong {
+            font-size: 16px;
+        }
+
+        .view-btn {
+            display: block;
+            margin-top: 18px;
+            text-align: center;
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            padding: 10px;
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .view-btn:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 900px) {
+            .rooms-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .rooms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h2>🏠 Rooms</h2>
+            <p>Manage rooms, beds and occupancy</p>
+        </div>
+
+        <a href="/dashboard" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="rooms-grid">
+
+        {% for room in rooms %}
+
+        <div class="room-card">
+
+            <div class="room-title">
+
+                <h3>
+                    Room {{ room[1] }}
+                </h3>
+
+                {% if room[2] == 'Repair' %}
+                    <span class="status status-repair">
+                        🔴 Repair
+                    </span>
+                {% else %}
+                    <span class="status status-active">
+                        🟢 Active
+                    </span>
+                {% endif %}
+
+            </div>
+
+
+            <div class="room-info">
+
+                <div class="info-box">
+                    <span>Total Beds</span>
+                    <strong>{{ room[3] }}</strong>
+                </div>
+
+                <div class="info-box">
+                    <span>Occupied</span>
+                    <strong>{{ room[4] }}</strong>
+                </div>
+
+                <div class="info-box">
+                    <span>Available</span>
+                    <strong>{{ room[5] }}</strong>
+                </div>
+
+            </div>
+
+            <div style="margin-top:18px;">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    margin-bottom:7px;
+                    font-size:13px;
+                    color:#64748b;
+                ">
+                    <span>Occupancy</span>
+
+                    <strong style="color:#1e293b;">
+                        {% if room[3] > 0 %}
+                            {{ ((room[4] / room[3]) * 100)|round(0) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div style="
+                    height:10px;
+                    background:#e2e8f0;
+                    border-radius:10px;
+                    overflow:hidden;
+                ">
+
+                    <div style="
+                        height:100%;
+                        background:#2563eb;
+                        border-radius:10px;
+                        width:
+                        {% if room[3] > 0 %}
+                            {{ (room[4] / room[3]) * 100 }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    ;
+                    "></div>
+
+                </div>
+
+            </div>
+
+
+            <a href="/rooms/{{ room[0] }}" class="view-btn">
+                👁 View Details
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
