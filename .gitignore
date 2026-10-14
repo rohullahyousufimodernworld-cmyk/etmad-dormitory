@@ -18,3 +18,5 @@ Thumbs.db
 *.sql
 *.sql.gz
 *.dump
+# SSL certificates
+backend/ca.pem

@@ -5,20 +5,39 @@ from flask_cors import CORS
 import os
 import pymysql
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
-app.secret_key = os.getenv("SECRET_KEY", "dev-only-change-this-key")
+app.secret_key = os.getenv("SECRET_KEY")
+
+if not app.secret_key:
+    raise RuntimeError("SECRET_KEY environment variable is required")
 
 # اتصال به دیتابیس MySQL
+import os
+import pymysql
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app.secret_key = os.getenv("SECRET_KEY")
+
+if not app.secret_key:
+    raise RuntimeError("SECRET_KEY environment variable is required")
+
+
 def get_db_connection():
     connection = pymysql.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASSWORD", ""),
-        database=os.getenv("DB_NAME", "etmad_dormitory"),
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME"),
         port=int(os.getenv("DB_PORT", "3306")),
-        charset="utf8"
+        charset="utf8mb4",
+        ssl={"ca": os.path.join(os.path.dirname(os.path.abspath(__file__)), "ca.pem")},
+        connect_timeout=15
     )
     return connection
 
