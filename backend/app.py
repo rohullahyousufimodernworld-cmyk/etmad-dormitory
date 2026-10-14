@@ -36,8 +36,12 @@ def get_db_connection():
         database=os.getenv("DB_NAME"),
         port=int(os.getenv("DB_PORT", "3306")),
         charset="utf8mb4",
-        ssl={"ca": os.path.join(os.path.dirname(os.path.abspath(__file__)), "ca.pem")},
-        connect_timeout=15
+ssl={
+    "ca": os.getenv(
+        "DB_SSL_CA",
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "ca.pem")
+    )
+},        connect_timeout=15
     )
     return connection
 
