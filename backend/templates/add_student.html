@@ -1,280 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Add Student</title>
+    <title>Add Student | Etimad Dormitory</title>
 
     <style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            margin: 0;
-            padding: 30px;
-        }
+:root {
+    --primary: #4169e1;
+    --primary-dark: #304fc4;
+    --purple: #7952d8;
+    --text: #202b45;
+    --muted: #75819a;
+    --border: #e2e8f5;
+}
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 40px 18px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at 10% 10%, #dce8ff 0, transparent 35%),
+        radial-gradient(circle at 90% 90%, #e9ddff 0, transparent 35%),
+        #f4f7ff;
+}
 
-        h1 {
-            margin-bottom: 25px;
-        }
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 36px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(49, 73, 140, 0.13);
+}
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+.header {
+    margin-bottom: 32px;
+    padding: 26px 28px;
+    color: white;
+    border-radius: 18px;
+    background: linear-gradient(120deg, #3558d4, #7651d5);
+    box-shadow: 0 12px 25px rgba(65, 80, 190, 0.2);
+}
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+.header h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+}
 
-        label {
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
+.header p {
+    margin: 0;
+    color: #e8eaff;
+    font-size: 14px;
+}
 
-        input,
-        select {
-            padding: 11px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
-            font-size: 15px;
-        }
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
 
-        .full-width {
-            grid-column: 1 / 3;
-        }
+.section-title {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+    padding: 12px 16px;
+    color: #3b56bd;
+    font-size: 15px;
+    font-weight: 750;
+    border-left: 4px solid #6c63df;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #edf1ff, #f8f7ff);
+}
 
-        .buttons {
-            margin-top: 25px;
-            display: flex;
-            gap: 10px;
-        }
+.form-grid > div:not(.section-title) {
+    min-width: 0;
+}
 
-        button {
-            padding: 12px 22px;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 15px;
-        }
+label {
+    display: block;
+    margin-bottom: 9px;
+    color: #394661;
+    font-size: 13px;
+    font-weight: 700;
+}
 
-        .save-btn {
-            background: #2563eb;
-            color: white;
-        }
+input,
+select,
+textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    color: #24314d;
+    font: inherit;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    outline: none;
+    background: #f9faff;
+    transition: border-color 0.25s, box-shadow 0.25s,
+                background 0.25s, transform 0.25s;
+}
 
-        .back-btn {
-            background: #e5e7eb;
-            color: #111827;
-        }
+input::placeholder {
+    color: #a1abc0;
+}
 
-    </style>
+input:hover,
+select:hover,
+textarea:hover {
+    border-color: #a9b8f5;
+    background: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(65, 105, 225, 0.12);
+}
+
+input:focus,
+select:focus {
+    transform: translateY(-1px);
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+button,
+.btn,
+a.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 13px 24px;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(120deg, #4169e1, #7651d5);
+    box-shadow: 0 7px 16px rgba(65, 85, 200, 0.2);
+    transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+}
+
+button:hover,
+.btn:hover,
+a.btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.06);
+    box-shadow: 0 12px 22px rgba(65, 85, 200, 0.27);
+}
+
+button:active,
+.btn:active,
+a.btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 650px) {
+    body {
+        padding: 18px 10px;
+    }
+
+    .container {
+        padding: 20px 16px;
+        border-radius: 18px;
+    }
+
+    .header {
+        padding: 22px 18px;
+    }
+
+    .header h1 {
+        font-size: 23px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .section-title {
+        grid-column: 1;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    button,
+    .btn,
+    a.btn {
+        width: 100%;
+    }
+}
+</style>
 
 </head>
 
 <body>
+    <main class="container">
+        <header class="header">
+            <h1>＋ Add New Student</h1>
+            <p>Etimad Dormitory Management System — Student Registration</p>
+        </header>
 
-<div class="container">
+        <form method="POST"
+        enctype="multipart/form-data">
+            <div class="form-grid">
 
-    <h1>➕ Add New Student</h1>
+                <div class="section-title">Personal Information</div>
 
-    <form method="POST">
+                <div class="form-group">
+                    <label for="first_name">First Name *</label>
+                    <input id="first_name" type="text" name="first_name"
+                           required maxlength="50" autocomplete="given-name">
+                </div>
 
-        <div class="form-grid">
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input id="last_name" type="text" name="last_name"
+                           maxlength="50" autocomplete="family-name">
+                </div>
 
-            <div class="form-group">
+                <div class="form-group">
+                    <label for="father_name">Father Name</label>
+                    <input id="father_name" type="text" name="father_name"
+                           maxlength="50">
+                </div>
 
-                <label>First Name</label>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input id="phone" type="tel" name="phone" maxlength="20">
+                </div>
 
-                <input
-                    type="text"
-                    name="first_name"
-                    required
-                >
+                <div class="form-group">
+                    <label for="id_number">ID Number</label>
+                    <input id="id_number" type="text" name="id_number"
+                           maxlength="30">
+                </div>
 
-            </div>
+                
 
-
-            <div class="form-group">
-
-                <label>Last Name</label>
-
-                <input
-                    type="text"
-                    name="last_name"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Father Name</label>
-
-                <input
-                    type="text"
-                    name="father_name"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Phone</label>
-
-                <input
-                    type="text"
-                    name="phone"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>ID Number</label>
-
-                <input
-                    type="text"
-                    name="id_number"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Education Type</label>
-
-                <select name="education_type">
-
-                    <option value="">Select</option>
-
-                    <option value="University">
-                        University
-                    </option>
-
-                    <option value="School">
-                        School
-                    </option>
-
-                    <option value="Institute">
-                        Institute
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>University / School</label>
-
-                <input
-                    type="text"
-                    name="university_school"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Department</label>
-
-                <input
-                    type="text"
-                    name="department"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Semester / Grade</label>
-
-                <input
-                    type="text"
-                    name="semester_grade"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Entry Date</label>
-
-                <input
-                    type="date"
-                    name="entry_date"
-                >
-
-            </div>
-
+                <div class="section-title">Student Photo / عکس شاگرد</div>
 
             <div class="form-group full-width">
-
-                <label>Status</label>
-
-                <select name="status">
-
-                    <option value="Active">
-                        Active
-                    </option>
-
-                    <option value="Inactive">
-                        Inactive
-                    </option>
-
-                </select>
-
+                <label for="student_image">Upload Student Photo / عکس شاگرد</label>
+                <input
+                    id="student_image"
+                    type="file"
+                    name="student_image"
+                    accept="image/jpeg,image/png,image/webp"
+                >
+                <small style="color: #75819a; display: block; margin-top: 8px; line-height: 1.6;">
+                    Accepted formats: JPG, PNG, WEBP. Upload a clear portrait photo of the student.
+                </small>
             </div>
 
-        </div>
+            <div class="section-title">Education Information</div>
+
+                <div class="form-group">
+                    <label for="education_type">Education Level</label>
+                    <select id="education_type" name="education_type">
+                        <option value="">Select education level</option>
+                        <option value="University">University</option>
+                        <option value="School">School</option>
+                        <option value="Institute">Institute</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="university_school">University / School / Institute</label>
+                    <input id="university_school" type="text"
+                           name="university_school" maxlength="100"
+                           placeholder="Enter institution name">
+                </div>
+
+                <div class="form-group">
+                    <label for="department" id="department-label">Department / Field</label>
+                    <input id="department" type="text" name="department"
+                           maxlength="100" placeholder="Enter field or class">
+                </div>
+
+                <div class="form-group">
+                    <label for="semester_grade" id="semester-label">Semester / Grade</label>
+                    <input id="semester_grade" type="text"
+                           name="semester_grade" maxlength="30"
+                           placeholder="e.g. Semester 3 or Grade 10">
+                </div>
+
+                                <div class="section-title">Identity Card / تذکره</div>
+
+                <div class="form-group full-width">
+                    <label for="id_card_image">Upload ID Card Photo / عکس تذکره</label>
+                    <input
+                        id="id_card_image"
+                        type="file"
+                        name="id_card_image"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+                    <small style="color: #91b5a0; margin-top: 8px; line-height: 1.6;">
+                        Accepted formats: JPG, PNG, WEBP. Choose a clear photo of the student’s ID card.
+                    </small>
+                </div>
+
+                <div class="section-title">Home Address</div>
 
 
-        <div class="buttons">
 
-            <button
-                type="submit"
-                class="save-btn"
-            >
-                Save Student
-            </button>
+                <div class="form-group">
+                    <label for="province">Province / ولایت</label>
+                    <input id="province" type="text" name="province"
+                           maxlength="100" placeholder="e.g. Daykundi">
+                </div>
 
-            <button
-                type="button"
-                class="back-btn"
-                onclick="history.back()"
-            >
-                Back
-            </button>
+                <div class="form-group">
+                    <label for="district">District / ولسوالی</label>
+                    <input id="district" type="text" name="district"
+                           maxlength="100" placeholder="Enter district">
+                </div>
 
-        </div>
+                <div class="form-group">
+                    <label for="village">Village / قریه</label>
+                    <input id="village" type="text" name="village"
+                           maxlength="100" placeholder="Enter village">
+                </div>
 
-    </form>
+                <div class="form-group">
+                    <label for="entry_date">Entry Date</label>
+                    <input id="entry_date" type="date" name="entry_date">
+                </div>
 
-</div>
+                <div class="form-group full-width">
+                    <label for="status">Student Status</label>
+                    <select id="status" name="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
 
+            <div class="buttons">
+                <button type="submit" class="save-btn">Save Student</button>
+                <button type="button" class="back-btn"
+                        onclick="history.back()">Back</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const educationType = document.getElementById('education_type');
+        const departmentLabel = document.getElementById('department-label');
+        const semesterLabel = document.getElementById('semester-label');
+        const departmentInput = document.getElementById('department');
+        const semesterInput = document.getElementById('semester_grade');
+
+        function updateEducationLabels() {
+            if (educationType.value === 'School') {
+                departmentLabel.textContent = 'Class / صنف';
+                departmentInput.placeholder = 'e.g. Grade 10';
+                semesterLabel.textContent = 'Grade / درجه';
+                semesterInput.placeholder = 'Enter grade or level';
+            } else if (educationType.value === 'University') {
+                departmentLabel.textContent = 'Department / رشته';
+                departmentInput.placeholder = 'e.g. Computer Science';
+                semesterLabel.textContent = 'Semester / سمستر';
+                semesterInput.placeholder = 'e.g. Semester 3';
+            } else {
+                departmentLabel.textContent = 'Department / Field';
+                departmentInput.placeholder = 'Enter field or class';
+                semesterLabel.textContent = 'Semester / Grade';
+                semesterInput.placeholder = 'e.g. Semester 3 or Grade 10';
+            }
+        }
+
+        educationType.addEventListener('change', updateEducationLabels);
+        updateEducationLabels();
+    </script>
 </body>
-
 </html>

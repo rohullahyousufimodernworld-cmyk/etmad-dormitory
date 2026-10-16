@@ -1,12 +1,16 @@
 from flask import Flask, request, jsonify, session, render_template, redirect, url_for, flash
 from datetime import datetime
 import math
+import io
+from PIL import Image, UnidentifiedImageError
+from flask import send_file
 from flask_cors import CORS
 import os
 import pymysql
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 load_dotenv()
+from functools import wraps
 
 app = Flask(__name__)
 CORS(app)
@@ -26,6 +30,19 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 if not app.secret_key:
     raise RuntimeError("SECRET_KEY environment variable is required")
+
+def admin_required(view_function):
+    @wraps(view_function)
+    def wrapped_view(*args, **kwargs):
+        if "user_id" not in session:
+            return redirect(url_for("login_page"))
+
+        if session.get("role") != "Admin":
+            return "Access denied: Admin only", 403
+
+        return view_function(*args, **kwargs)
+
+    return wrapped_view
 
 
 def get_db_connection():
@@ -92,6 +109,13 @@ def login():
     )
 
     user = cursor.fetchone()
+    
+    cursor.execute("SELECT DATABASE(), @@hostname, @@port")
+    db_info = cursor.fetchone()
+    app.logger.info("Flask database info: %r", db_info)
+    
+    app.logger.info("Login attempt for username: %r", username)
+    app.logger.info("User found: %s", user is not None)
 
     cursor.close()
     connection.close()
@@ -156,6 +180,8 @@ def login():
         "role": user[3]
     })
     
+
+        
 @app.route("/settings/change-password", methods=["POST"])
 def change_password():
     if "user_id" not in session:
@@ -163,6 +189,108 @@ def change_password():
             "success": False,
             "message": "Please login first."
         }), 401
+
+    data = request.get_json(silent=True) or {}
+
+    current_password = data.get("current_password", "")
+    new_password = data.get("new_password", "")
+    confirm_password = data.get("confirm_password", "")
+
+    if not all([
+        current_password,
+        new_password,
+        confirm_password
+    ]):
+        return jsonify({
+            "success": False,
+            "message": "Please fill in all fields."
+        }), 400
+
+    if len(new_password) < 8:
+        return jsonify({
+            "success": False,
+            "message": "New password must be at least 8 characters."
+        }), 400
+
+    if new_password != confirm_password:
+        return jsonify({
+            "success": False,
+            "message": "New passwords do not match."
+        }), 400
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute(
+            """
+            SELECT Password
+            FROM users
+            WHERE User_ID = %s AND Status = 'Active'
+            """,
+            (session["user_id"],)
+        )
+
+        user = cursor.fetchone()
+
+
+        if user is None:
+            return jsonify({
+                "success": False,
+                "message": "Active user account not found."
+            }), 404
+
+        stored_password = user[0]
+
+        if stored_password.startswith(("pbkdf2:", "scrypt:")):
+            password_matches = check_password_hash(
+                stored_password, current_password
+            )
+        else:
+            password_matches = stored_password == current_password
+
+        if not password_matches:
+            return jsonify({
+                "success": False,
+                "message": "Current password is incorrect."
+            }), 400
+
+        if current_password == new_password:
+            return jsonify({
+                "success": False,
+                "message": "Choose a different new password."
+            }), 400
+
+        hashed_password = generate_password_hash(new_password)
+
+        cursor.execute(
+            """
+            UPDATE users
+            SET Password = %s
+            WHERE User_ID = %s
+            """,
+            (hashed_password, session["user_id"])
+        )
+
+        connection.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Password changed successfully."
+        })
+
+    except Exception:
+        connection.rollback()
+        app.logger.exception("Password change failed")
+
+        return jsonify({
+            "success": False,
+            "message": "Unable to change password. Please try again."
+        }), 500
+
+    finally:
+        cursor.close()
+        connection.close()
 
     data = request.get_json(silent=True) or {}
 
@@ -516,54 +644,193 @@ def add_student():
         university_school = request.form.get('university_school')
         department = request.form.get('department')
         semester_grade = request.form.get('semester_grade')
-        entry_date = request.form.get('entry_date')
+        entry_date = request.form.get('entry_date') or None
         status = request.form.get('status')
+
+        province = request.form.get('province')
+        district = request.form.get('district')
+        village = request.form.get('village')
+
+        # Prepare the optional ID card image
+        id_card_bytes = None
+        upload = request.files.get('id_card_image')
+
+        if upload and upload.filename:
+
+            try:
+                raw_image = upload.read(5 * 1024 * 1024 + 1)
+
+                if len(raw_image) > 5 * 1024 * 1024:
+                    return "ID card image must be 5 MB or smaller.", 400
+
+                if not raw_image:
+                    return "The uploaded image is empty.", 400
+
+                # Verify that the uploaded file is a real image
+                with Image.open(io.BytesIO(raw_image)) as image:
+                    if image.format not in ('JPEG', 'PNG', 'WEBP'):
+                        return "Only JPG, PNG, and WEBP images are allowed.", 400
+
+                    image.verify()
+
+                # Reopen and re-encode to remove metadata
+                with Image.open(io.BytesIO(raw_image)) as image:
+                    image.load()
+
+                    if image.width * image.height > 20_000_000:
+                        return "Image dimensions are too large.", 400
+
+                    image = image.convert('RGB')
+
+                    output = io.BytesIO()
+                    image.save(output, format='JPEG', quality=85, optimize=True)
+                    id_card_bytes = output.getvalue()
+
+                if len(id_card_bytes) > 5 * 1024 * 1024:
+                    return "Processed image must be 5 MB or smaller.", 400
+
+            except (UnidentifiedImageError, OSError, ValueError):
+                return "Invalid image. Please upload a valid JPG, PNG, or WEBP file.", 400
+            
+            # Prepare the optional student portrait
+        student_image_bytes = None
+        student_upload = request.files.get('student_image')
+
+        if student_upload and student_upload.filename:
+            try:
+                raw_student_image = student_upload.read(5 * 1024 * 1024 + 1)
+
+                if len(raw_student_image) > 5 * 1024 * 1024:
+                    return "Student photo must be 5 MB or smaller.", 400
+
+                if not raw_student_image:
+                    return "The uploaded student photo is empty.", 400
+
+                with Image.open(io.BytesIO(raw_student_image)) as image:
+                    if image.format not in ('JPEG', 'PNG', 'WEBP'):
+                        return "Only JPG, PNG, and WEBP student photos are allowed.", 400
+                    image.verify()
+
+                with Image.open(io.BytesIO(raw_student_image)) as image:
+                    image.load()
+
+                    if image.width * image.height > 20_000_000:
+                        return "Student photo dimensions are too large.", 400
+
+                    image = image.convert('RGB')
+                    output = io.BytesIO()
+                    image.save(output, format='JPEG', quality=85, optimize=True)
+                    student_image_bytes = output.getvalue()
+
+                if len(student_image_bytes) > 5 * 1024 * 1024:
+                    return "Processed student photo must be 5 MB or smaller.", 400
+
+            except (UnidentifiedImageError, OSError, ValueError):
+                return "Invalid student photo. Please upload a valid JPG, PNG, or WEBP file.", 400
 
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        cursor.execute("""
-            INSERT INTO students
-            (
-                First_Name,
-                Last_Name,
-                Father_Name,
-                Phone,
-                ID_Number,
-                Education_Type,
-                University_School,
-                Department,
-                Semester_Grade,
-                Entry_Date,
-                Status
-            )
-            VALUES
-            (
-                %s, %s, %s, %s, %s,
-                %s, %s, %s, %s, %s, %s
-            )
-        """, (
-            first_name,
-            last_name,
-            father_name,
-            phone,
-            id_number,
-            education_type,
-            university_school,
-            department,
-            semester_grade,
-            entry_date,
-            status
-        ))
+        try:
+            cursor.execute("""
+                INSERT INTO students
+                (
+                    First_Name,
+                    Last_Name,
+                    Father_Name,
+                    Phone,
+                    ID_Number,
+                    Education_Type,
+                    University_School,
+                    Department,
+                    Semester_Grade,
+                    Entry_Date,
+                    Status,
+                    Province,
+                    District,
+                    Village,
+                    ID_Card_Image,
+                    Student_Image
+                )
+                VALUES (
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s,
+                    %s
+                )
+            """, (
+                first_name,
+                last_name,
+                father_name,
+                phone,
+                id_number,
+                education_type,
+                university_school,
+                department,
+                semester_grade,
+                entry_date,
+                status,
+                province,
+                district,
+                village,
+                id_card_bytes,
+                student_image_bytes
+            ))
 
-        connection.commit()
+            connection.commit()
 
-        cursor.close()
-        connection.close()
+        except Exception:
+            connection.rollback()
+            raise
+
+        finally:
+            cursor.close()
+            connection.close()
 
         return redirect('/students')
 
     return render_template("add_student.html")
+
+@app.route('/students/<int:student_id>/id-card')
+def view_student_id_card(student_id):
+
+    if "user_id" not in session:
+        return "Please login first", 401
+
+    if session.get("role") != "Admin":
+        return "Access denied", 403
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT ID_Card_Image
+            FROM students
+            WHERE Student_ID = %s
+        """, (student_id,))
+
+        result = cursor.fetchone()
+
+        if not result or not result[0]:
+            return "ID card image not found.", 404
+
+        image_data = result[0]
+
+    finally:
+        cursor.close()
+        connection.close()
+
+    response = send_file(
+        io.BytesIO(image_data),
+        mimetype='image/jpeg',
+        download_name='id-card.jpg'
+    )
+
+    response.headers['Cache-Control'] = 'private, no-store'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+
+    return response
 
 @app.route('/students/<int:student_id>')
 def student_details(student_id):
@@ -587,7 +854,8 @@ def student_details(student_id):
             Department,
             Semester_Grade,
             Entry_Date,
-            Status
+            Status,
+            Student_Image
         FROM students
         WHERE Student_ID = %s
     """, (student_id,))
@@ -1186,7 +1454,11 @@ def students_page():
                 Last_Name,
                 University_School,
                 Department,
-                Status
+                Status,
+                CASE
+                    WHEN Student_Image IS NOT NULL THEN 1
+                    ELSE 0
+                END AS Has_Student_Image
             FROM students
             WHERE
                 First_Name LIKE %s
@@ -1217,7 +1489,11 @@ def students_page():
                 Last_Name,
                 University_School,
                 Department,
-                Status
+                Status,
+                CASE
+                    WHEN Student_Image IS NOT NULL THEN 1
+                    ELSE 0
+                END AS Has_Student_Image
             FROM students
             ORDER BY Student_ID DESC
             LIMIT %s OFFSET %s
@@ -1238,6 +1514,31 @@ def students_page():
         page=page,
         total_pages=total_pages,
         total_students=total_students
+    )
+    
+@app.route('/students/photo/<int:student_id>')
+def student_photo(student_id):
+    if "user_id" not in session:
+        return "Unauthorized", 401
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT Student_Image FROM students WHERE Student_ID = %s",
+        (student_id,)
+    )
+    result = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    if not result or not result[0]:
+        return "Photo not found", 404
+
+    return send_file(
+        io.BytesIO(result[0]),
+        mimetype='image/jpeg'
     )
 
 @app.route('/rooms')
@@ -1444,6 +1745,7 @@ def building_floors(building_id):
     )
     
 @app.route('/employees')
+@admin_required
 def employees_page():
     if "user_id" not in session:
         return "Please login first", 401
@@ -1741,6 +2043,7 @@ def employee_details(employee_id):
     )
     
 @app.route('/employee-salaries', methods=['GET', 'POST'])
+@admin_required
 def employee_salaries():
     if "user_id" not in session:
         return "Please login first", 401
@@ -2392,6 +2695,7 @@ def logout():
     return redirect("/")
 
 @app.route('/settings')
+@admin_required
 def settings_page():
     if "user_id" not in session:
         return redirect(url_for("home"))

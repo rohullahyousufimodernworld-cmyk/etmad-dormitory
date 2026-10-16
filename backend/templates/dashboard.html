@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Etmad Dormitory - Dashboard</title>
+    <title>Etimad Dormitory - Dashboard</title>
 
     <!-- Font Awesome -->
     <link
@@ -28,7 +28,7 @@
     <aside class="sidebar" id="sidebar">
 
         <div class="logo">
-            <h2>ETMAD<span>.</span></h2>
+            <h2>ETIMAD<span>.</span></h2>
             <p>Dormitory Management System</p>
         </div>
 
@@ -85,19 +85,23 @@
 
             
 
+            {% if session.get('role') in ['Admin', 'Everyone'] %}
             <li>
-                <a href="{{ url_for('employees_page')}}">
+                <a href="{{ url_for('employees_page') }}">
                     <i class="fa-solid fa-users"></i>
                     <span>Employees</span>
                 </a>
             </li>
+            {% endif %}
 
+            {% if session.get('role') in ['Admin', 'Everyone'] %}
             <li>
                 <a href="{{ url_for('employee_salaries') }}">
                     <i class="fa-solid fa-wallet"></i>
                     <span>Employees Salary Management</span>
                 </a>
             </li>
+            {% endif %}
 
             <li>
                 <a href="{{ url_for('meals_page')}}">
@@ -114,13 +118,14 @@
             </li>
 
             
-
+            {% if session.get('role') == 'Admin' %}
             <li>
                 <a href="{{ url_for('settings_page')}}">
                     <i class="fa-solid fa-gear"></i>
                     <span>Settings</span>
                 </a>
             </li>
+            {% endif %}
 
             <li class="logout">
                 <a href="/logout">
@@ -206,7 +211,7 @@
                 </h1>
 
                 <p>
-                    Here's what's happening in Etmad Dormitory today.
+                    Here's what's happening in Etimad Dormitory today.
                 </p>
 
             </div>

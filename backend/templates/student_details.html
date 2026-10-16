@@ -305,6 +305,45 @@
             background: #1d4ed8;
         }
 
+        /* Student ID Card Design */
+        .id-card-section {
+            border: 1px solid #dbeafe;
+            background: linear-gradient(135deg, #ffffff, #eff6ff);
+        }
+
+        .id-card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            min-height: 100px;
+        }
+
+        .id-card-image {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.10);
+        }
+
+        .id-card-empty {
+            color: #64748b;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .id-card-image {
+                max-width: 100%;
+                max-height: 400px;
+            }
+        }
+
     </style>
 
 </head>
@@ -477,6 +516,54 @@
 
 
     </div>
+
+    <!-- Student Photo -->
+<div class="detail-section">
+    <h3>👤 Student Photo</h3>
+
+    {% if student[12] %}
+        <img
+            src="{{ url_for('student_photo', student_id=student[0]) }}"
+            alt="Student Photo"
+            style="
+                display: block;
+                width: 180px;
+                height: 180px;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 14px;
+                border: 2px solid #00d4ff;
+                margin: 15px auto;
+            "
+        >
+    {% else %}
+        <p>No student photo uploaded.</p>
+    {% endif %}
+</div>
+
+    <!-- Student ID Card -->
+    <div class="info-card id-card-section">
+
+        <h3>🪪 Student ID Card</h3>
+
+        <div class="id-card-container">
+
+            <img
+                src="{{ url_for('view_student_id_card', student_id=student[0]) }}"
+                alt="Student ID Card"
+                class="id-card-image"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+            >
+
+            <p class="id-card-empty" style="display: none;">
+                🪪 No ID card image uploaded for this student.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Accommodation Information -->
 
     <!-- Accommodation Information -->
 
